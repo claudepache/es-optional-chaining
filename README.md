@@ -114,7 +114,7 @@ a?.b   // undefined if a is null/undefined, a.b otherwise
 **Short-circuiting.** A value of undefined produced by the `?.` operator is propagated without further evaluation to an entire chain of property accesses, method calls, constructor invocations, etc. (or, in spec parlance, a [Left-Hand-Side Expression](https://tc39.github.io/ecma262/#sec-left-hand-side-expressions)).
 
 ```js
-a?.b.c().d    // undefined if a is null/undefined, a.b.c otherwise
+a?.b.c().d    // undefined if a is null/undefined, a.b.c().d otherwise
               // NB: If a is not null/undefined, and a.b is nevertheless undefined, 
               //     short-circuiting does *not* apply
 ```
