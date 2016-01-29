@@ -1,6 +1,6 @@
 # Optional Chaining
 
-This is a proposal for introducing Optional Chaining feature (aka Existential Operator, aka Null Propagation) in JavaScript (and incidently in [ECMA-262](https://github.com/tc39/ecma262/)).
+This is a proposal for introducing Optional Chaining feature (aka Existential Operator, aka Null Propagation) in [ECMAScript](https://github.com/tc39/ecma262/)).
 
 ## Motivation
 
@@ -133,7 +133,9 @@ delete a?.b   // no-op if a is null/undefined
 
 ## Specification
 
-Very soon...
+Technically the semantics are implemented by introducing a special Reference, called Nil, which is propagated without further evaluation through left-hand side expressions (property accesses, method calls, etc.), and which dereferences to **undefined** (or to /dev/null in write context).
+
+See [the spec text](https://claudepache.github.io/es-optional-chaining/) for more details.
 
 
 
