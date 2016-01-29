@@ -16,7 +16,7 @@
   <h1><span class="secnum">1</span>Scope<span class="utils"><span class="anchor"><a href="#sec-scope">#</a></span></span></h1>
   <p>This is the spec text proposal for introducing Optional Chaining feature (aka Null Propagation, aka Existential Operator) in ECMAScript.</p>
 
-  <p>For the syntax, we use provisonally the <code>?.</code> token. However, due to ambiguity with the <code>?</code> followed by a number beginning with <code>.</code>, whose meaning cannot be changed due to backward compatibility concerns, that needs to be amended, either by complicating the parsing rules, or by changing the syntax.</p>
+  <p>For the syntax, we use provisonally the <code>?.</code> token. However, it may induce complications for the parser, that needs to discriminate between <code>a?.b</code> (optional chaining) and <code>a?.3:0</code> (conditional operator, whose meaning cannot be changed due to backward compatibility constraints).</p>
 
 </emu-clause>
 
