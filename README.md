@@ -127,7 +127,7 @@ a?.b.c().d    // undefined if a is null/undefined, a.b.c().d otherwise
 **Use in write context.** The `?.` operator may also be used for optional property writing and deletion:
 
 ```js
-a?.b = 42     // does nothing if a is null/undefined, equivalent a.b.c = 42 otherwise
+a?.b = 42     // does nothing if a is null/undefined, equivalent to a.b = 42 otherwise
 delete a?.b   // no-op if a is null/undefined
 ```
 
