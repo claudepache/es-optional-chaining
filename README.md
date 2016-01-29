@@ -4,7 +4,7 @@ This is a proposal for introducing Optional Chaining feature (aka Existential Op
 
 ## Motivation
 
-When searching for a property value deeply in a tree structure, one has often to check whether intermediate nodes exist:
+When looking for a property value deeply in a tree structure, one has often to check whether intermediate nodes exist:
 ```js
 var street = user.address && user.address.street
 ```
@@ -77,7 +77,7 @@ func?.(...args)   // optional function or method call
 new C?.(...args)  // optional constructor invocation
 ```
 
-That syntax may be problematic for the parser, because `foo?.3:0` is currently parsed as `foo ? .3 : 0` and must not be re-interpreted as `foo ?. 3 : 0`. 
+That syntax may be problematic for the parser, because `foo?.3:0` is currently parsed as `foo ? .3 : 0` and must not be reinterpreted as `foo ?. 3 : 0`. 
 
 _Input from specialists is wanted in order to decide whether that could be resolved without too much gnashing of teeth._
 
@@ -103,20 +103,21 @@ For the time being, we keep the `?.` notation.
 
 ## Semantics
 
-(The explanations here are optimised for the human mind. For a machine-friendly version, look at the spec text.)
+(The explanations here are optimised for the human mind. For a more machine-friendly version, look at the spec text.)
 
-**Base case.** If the part at the left-hand side of `?.` operator evaluates to undefined or null, its right-hand side is _not_ evaluated and the expression returns undefined.
+**Base case.** If the expression at the left-hand side of the `?.` operator evaluates to undefined or null, its right-hand side is _not_ evaluated and the whole expression returns undefined.
 
 ```js
-a?.b   // undefined if a is null/undefined, a.b otherwise
+a?.b      // undefined if a is null/undefined, a.b otherwise
+a?.[++x]   // If a evaluates to null/undefined, the variable x is *not* incremented.
 ```
 
 **Short-circuiting.** A value of undefined produced by the `?.` operator is propagated without further evaluation to an entire chain of property accesses, method calls, constructor invocations, etc. (or, in spec parlance, a [Left-Hand-Side Expression](https://tc39.github.io/ecma262/#sec-left-hand-side-expressions)).
 
 ```js
-a?.b.c().d    // undefined if a is null/undefined, a.b.c().d otherwise
-              // NB: If a is not null/undefined, and a.b is nevertheless undefined, 
-              //     short-circuiting does *not* apply
+a?.b.c().d      // undefined if a is null/undefined, a.b.c().d otherwise.
+                // NB: If a is not null/undefined, and a.b is nevertheless undefined, 
+                //     short-circuiting does *not* apply
 ```
 
 **Free grouping.** Use of parentheses for mere grouping does *not* stop short-circuiting.
@@ -133,7 +134,7 @@ delete a?.b   // no-op if a is null/undefined
 
 ## Specification
 
-Technically the semantics are implemented by introducing a special Reference, called Nil, which is propagated without further evaluation through left-hand side expressions (property accesses, method calls, etc.), and which dereferences to **undefined** (or to /dev/null in write context).
+Technically the semantics are enforced by introducing a special Reference, called Nil, which is propagated without further evaluation through left-hand side expressions (property accesses, method calls, etc.), and which dereferences to **undefined** (or to /dev/null in write context).
 
 See [the spec text](https://claudepache.github.io/es-optional-chaining/) for more details.
 
