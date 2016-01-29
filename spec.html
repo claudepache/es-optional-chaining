@@ -31,11 +31,11 @@
 <emu-clause id="sec-nil-reference">
   <h1>Modified text</h1>
   
-    Modified content are marked <ins>like this</ins>. In order to avoid distraction, we don’t mark mere editorial amendment.
+    Modified content are marked <ins>like this</ins>. In order to avoid distraction, we don’t mark mere editorial amendments.
 
     <!-- es6num="6.2.3" -->
     <emu-clause id="sec-reference-specification-type">
-      <h1>(6.2.3) The Reference Specification Type</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-reference-specification-type">6.2.3</a>) The Reference Specification Type</h1>
       <emu-note>
         <p>The Reference type is used to explain the behaviour of such operators as `delete`, `typeof`, the assignment operators, the `super` keyword and other language features. For example, the left-hand operand of an assignment is expected to produce a reference.</p>
       </emu-note>
@@ -77,7 +77,7 @@
 
       <!-- es6num="6.2.3.1" -->
       <emu-clause id="sec-getvalue" aoid="GetValue">
-        <h1>(6.2.3.1) GetValue (_V_)</h1>
+        <h1>(<a href="https://tc39.github.io/ecma262/#sec-getvalue">6.2.3.1</a>) GetValue (_V_)</h1>
         <emu-alg>
           1. ReturnIfAbrupt(_V_).
           1. If Type(_V_) is not Reference, return _V_.
@@ -99,7 +99,7 @@
 
       <!-- es6num="6.2.3.2" -->
       <emu-clause id="sec-putvalue" aoid="PutValue">
-        <h1>(6.2.3.2) PutValue (_V_, _W_)</h1>
+        <h1>(<a href="https://tc39.github.io/ecma262/#sec-putvalue">6.2.3.2</a>) PutValue (_V_, _W_)</h1>
         <emu-alg>
           1. ReturnIfAbrupt(_V_).
           1. ReturnIfAbrupt(_W_).
@@ -129,11 +129,11 @@
 
     <!-- es6num="12.5.4" -->
     <emu-clause id="sec-delete-operator">
-      <h1>(12.5.4) The `delete` Operator</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-delete-operator">12.5.4</a>) The `delete` Operator</h1>
 
       <!-- es6num="12.5.4.2" -->
       <emu-clause id="sec-delete-operator-runtime-semantics-evaluation">
-        <h1>(12.5.4.2) Runtime Semantics: Evaluation</h1>
+        <h1>(<a href="https://tc39.github.io/ecma262/#sec-delete-operator-runtime-semantics-evaluation">12.5.4.2</a>) Runtime Semantics: Evaluation</h1>
         <emu-grammar>UnaryExpression : `delete` UnaryExpression</emu-grammar>
         <emu-alg>
           1. Let _ref_ be the result of evaluating |UnaryExpression|.
@@ -162,7 +162,7 @@
 
   <!-- es6num="12.3" -->
   <emu-clause id="sec-left-hand-side-expressions">
-    <h1>(12.3) Left-Hand-Side Expressions</h1>
+    <h1>(<a href="https://tc39.github.io/ecma262/#sec-left-hand-side-expressions">12.3</a>) Left-Hand-Side Expressions</h1>
     <h2>Syntax</h2>
     <emu-grammar>
       MemberExpression[Yield] :
@@ -222,7 +222,7 @@
 
     <!-- es6num="12.3.1" -->
     <emu-clause id="sec-static-semantics">
-      <h1>Static Semantics</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-static-semantics">12.3.1</a>) Static Semantics</h1>
 
       <!-- es6num="12.3.1.1" -->
       <emu-clause id="sec-static-semantics-static-semantics-contains">
@@ -421,7 +421,7 @@
 
     <!-- es6num="12.3.2" -->
     <emu-clause id="sec-property-accessors">
-      <h1>Property Accessors</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-property-accessors">12.3.2</a>) Property Accessors</h1>
       <emu-note>
         <p>Properties are accessed by name, using either the dot notation:</p>
         <div class="rhs">
@@ -529,7 +529,7 @@
 
     <!-- es6num="12.3.3" -->
     <emu-clause id="sec-new-operator">
-      <h1>The `new` Operator</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-new-operator">12.3.3</a>) The `new` Operator</h1>
 
       <!-- es6num="12.3.3.1" -->
       <emu-clause id="sec-new-operator-runtime-semantics-evaluation">
@@ -576,7 +576,7 @@
 
     <!-- es6num="12.3.4" -->
     <emu-clause id="sec-function-calls">
-      <h1>Function Calls</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-function-calls">12.3.4</a>) Function Calls</h1>
 
       <!-- es6num="12.3.4.1" -->
       <emu-clause id="sec-function-calls-runtime-semantics-evaluation">
@@ -674,21 +674,21 @@
 
     <!-- es6num="12.3.5" -->
     <emu-clause id="sec-super-keyword">
-      <h1>The `super` Keyword</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-super-keyword">12.3.5</a>) The `super` Keyword</h1>
 
       <p><i>(not modified)</i></p>
     </emu-clause>
 
     <!-- es6num="12.3.6" -->
     <emu-clause id="sec-argument-lists">
-      <h1>Argument Lists</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-argument-lists">12.3.6</a>) Argument Lists</h1>
 
       <p><i>(not modified)</i></p>
     </emu-clause>
 
     <!-- es6num="12.3.7" -->
     <emu-clause id="sec-tagged-templates">
-      <h1>Tagged Templates</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-tagged-templates">12.3.7</a>) Tagged Templates</h1>
       <emu-note>
         <p>A tagged template is a function call where the arguments of the call are derived from a |TemplateLiteral| (<emu-xref href="#sec-template-literals"></emu-xref>). The actual arguments include a template object (<emu-xref href="#sec-gettemplateobject"></emu-xref>) and the values produced by evaluating the expressions embedded within the |TemplateLiteral|.</p>
       </emu-note>
@@ -715,16 +715,9 @@
 
     <!-- es6num="12.3.8" -->
     <emu-clause id="sec-meta-properties">
-      <h1>Meta Properties</h1>
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-meta-properties">12.3.8</a>) Meta Properties</h1>
 
-      <!-- es6num="12.3.8.1" -->
-      <emu-clause id="sec-meta-properties-runtime-semantics-evaluation">
-        <h1>Runtime Semantics: Evaluation</h1>
-        <emu-grammar>NewTarget : `new` `.` `target`</emu-grammar>
-        <emu-alg>
-          1. Return GetNewTarget().
-        </emu-alg>
-      </emu-clause>
+      <p><i>(not modified)</i></p>
     </emu-clause>
   </emu-clause>
 
