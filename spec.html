@@ -18,20 +18,18 @@
   contributors: Claude Pache, ECMA International
 </pre>
 
-<!-- es6num="2" -->
 <emu-clause id="sec-scope">
   <h1>Scope</h1>
   <p>This is the spec text proposal for introducing Optional Chaining feature (aka Null Propagation, aka Existential Operator) in ECMAScript.</p>
 
-  <p>For the syntax, we use provisonally the `?.` token. However, it may induce complications for the parser, that needs to discriminate between `a?.b` (optional chaining) and `a?.3:0` (conditional operator, whose meaning cannot be changed due to backward compatibility constraints).</p>
+  <p>For the syntax, we use the `?.` token, with a lookahead at the level of the lexical grammar that allows to discriminate between `a?.b` (optional chaining) and `a?.3:0` (conditional operator, whose meaning cannot be changed due to backward compatibility constraints).</p>
+
+  <p>Modified content are marked <ins>like this</ins>. In order to avoid distraction, we don’t mark mere editorial amendments.</p>
 
 </emu-clause>
 
-<!-- es6num="3" -->
 <emu-clause id="sec-nil-reference">
-  <h1>Modified text</h1>
-  
-    Modified content are marked <ins>like this</ins>. In order to avoid distraction, we don’t mark mere editorial amendments.
+  <h1>The Nil Reference</h1>
 
     <!-- es6num="6.2.3" -->
     <emu-clause id="sec-reference-specification-type">
@@ -159,6 +157,34 @@
       </emu-clause>
     </emu-clause>
 
+  </emu-clause>
+
+
+  <!-- es6num="11.7" -->
+  <emu-clause id="sec-punctuators">
+    <h1>(<a href="https://tc39.github.io/ecma262/#sec-punctuators">11.7</a>) Lexical Grammar: Punctuators</h1>
+    <h2>Syntax</h2>
+    <emu-grammar>
+      <ins class="block">OptionalChainingOperator ::
+        `?.` [lookahead &lt;! DecimalDigit
+      </ins>
+        
+      <ins>OtherPunctuator</ins> :: one of
+        `{` `(` `)` `[` `]` `.` `...` `;` `,` `&lt;` `&gt;` `&lt;=` `&gt;=` `==` `!=` `===` `!==` `+` `-` `*` `%` `++` `--` `&lt;&lt;` `&gt;&gt;` `&gt;&gt;&gt;` `&amp;` `|` `^` `!` `~` `&amp;&amp;` `||` `?` `:` `=` `+=` `-=` `*=` `%=` `&lt;&lt;=` `&gt;&gt;=` `&gt;&gt;&gt;=` `&amp;=` `|=` `^=` `=&gt;`
+        
+      Punctuator ::
+        <ins class="block">OptionalChainingOperator</ins>
+        OtherPunctuator
+
+      DivPunctuator ::
+        `/`
+        `/=`
+
+      RightBracePunctuator ::
+        `}`
+    </emu-grammar>
+  </emu-clause>
+
 
   <!-- es6num="12.3" -->
   <emu-clause id="sec-left-hand-side-expressions">
@@ -168,14 +194,14 @@
       MemberExpression[Yield] :
         PrimaryExpression[?Yield]
         MemberExpression[?Yield] `[` Expression[In, ?Yield] `]`
-        <ins>MemberExpression[?Yield] `?.` `[` Expression[In, ?Yield] `]`</ins>
+        <ins>MemberExpression[?Yield] OptionalChainingOperator `[` Expression[In, ?Yield] `]`</ins>
         MemberExpression[?Yield] `.` IdentifierName
-        <ins>MemberExpression[?Yield] `?.` IdentifierName</ins>
+        <ins>MemberExpression[?Yield] OptionalChainingOperator IdentifierName</ins>
         MemberExpression[?Yield] TemplateLiteral[?Yield]
         SuperProperty[?Yield]
         MetaProperty
         `new` MemberExpression[?Yield] Arguments[?Yield]
-        <ins>`new` MemberExpression[?Yield] `?.` Arguments[?Yield]</ins>
+        <ins>`new` MemberExpression[?Yield] OptionalChainingOperator Arguments[?Yield]</ins>
 
       SuperProperty[Yield] :
         `super` `[` Expression[In, ?Yield] `]`
@@ -195,11 +221,11 @@
         MemberExpression[?Yield] Arguments[?Yield]
         SuperCall[?Yield]
         CallExpression[?Yield] Arguments[?Yield]
-        <ins>CallExpression[?Yield] `?.` Arguments[?Yield]</ins>
+        <ins>CallExpression[?Yield] OptionalChainingOperator Arguments[?Yield]</ins>
         CallExpression[?Yield] `[` Expression[In, ?Yield] `]`
-        <ins>CallExpression[?Yield] `?.` `[` Expression[In, ?Yield] `]`</ins>
+        <ins>CallExpression[?Yield] OptionalChainingOperator `[` Expression[In, ?Yield] `]`</ins>
         CallExpression[?Yield] `.` IdentifierName
-        <ins>CallExpression[?Yield] `?.` IdentifierName</ins>
+        <ins>CallExpression[?Yield] OptionalChainingOperator IdentifierName</ins>
         CallExpression[?Yield] TemplateLiteral[?Yield]
 
       SuperCall[Yield] :
@@ -237,7 +263,7 @@
           1. Return *false*.
         </emu-alg>
         <ins class="block">
-        <emu-grammar>MemberExpression : MemberExpression `?.` IdentifierName</emu-grammar>
+        <emu-grammar>MemberExpression : MemberExpression OptionalChainingOperator IdentifierName</emu-grammar>
         <emu-alg>
           1. If |MemberExpression| Contains _symbol_ is *true*, return *true*.
           1. If _symbol_ is a |ReservedWord|, return *false*.
@@ -260,7 +286,7 @@
           1. Return *false*.
         </emu-alg>
         <ins class="block">
-        <emu-grammar>CallExpression : CallExpression `?.` IdentifierName</emu-grammar>
+        <emu-grammar>CallExpression : CallExpression OptionalChainingOperator IdentifierName</emu-grammar>
         <emu-alg>
           1. If |CallExpression| Contains _symbol_ is *true*, return *true*.
           1. If _symbol_ is a |ReservedWord|, return *false*.
@@ -278,14 +304,14 @@
         <emu-grammar>
           MemberExpression :
             MemberExpression `[` Expression `]`
-            <ins>MemberExpression `?.` `[` Expression `]`</ins>
+            <ins>MemberExpression OptionalChainingOperator `[` Expression `]`</ins>
             MemberExpression `.` IdentifierName
-            <ins>MemberExpression `?.` IdentifierName</ins>
+            <ins>MemberExpression OptionalChainingOperator IdentifierName</ins>
             MemberExpression TemplateLiteral
             SuperProperty
             MetaProperty
             `new` MemberExpression Arguments
-            <ins>`new` MemberExpression `?.` Arguments</ins>
+            <ins>`new` MemberExpression OptionalChainingOperator Arguments</ins>
 
           NewExpression :
             `new` NewExpression
@@ -294,11 +320,11 @@
             MemberExpression Arguments
             SuperCall
             CallExpression Arguments
-            <ins>CallExpression `?.` Arguments</ins>
+            <ins>CallExpression OptionalChainingOperator Arguments</ins>
             CallExpression `[` Expression `]`
-            <ins>CallExpression `?.` `[` Expression `]`</ins>
+            <ins>CallExpression OptionalChainingOperator `[` Expression `]`</ins>
             CallExpression `.` IdentifierName
-            <ins>CallExpression `?.` IdentifierName</ins>
+            <ins>CallExpression OptionalChainingOperator IdentifierName</ins>
             CallExpression TemplateLiteral
         </emu-grammar>
         <emu-alg>
@@ -318,14 +344,14 @@
         <emu-grammar>
           MemberExpression :
             MemberExpression `[` Expression `]`
-            <ins>MemberExpression `?.` `[` Expression `]`</ins>
+            <ins>MemberExpression OptionalChainingOperator `[` Expression `]`</ins>
             MemberExpression `.` IdentifierName
-            <ins>MemberExpression `?.` IdentifierName</ins>
+            <ins>MemberExpression OptionalChainingOperator IdentifierName</ins>
             MemberExpression TemplateLiteral
             SuperProperty
             MetaProperty
             `new` MemberExpression Arguments
-            <ins>`new` MemberExpression `?.` Arguments</ins>
+            <ins>`new` MemberExpression OptionalChainingOperator Arguments</ins>
 
           NewExpression :
             `new` NewExpression
@@ -334,11 +360,11 @@
             MemberExpression Arguments
             SuperCall
             CallExpression Arguments
-            <ins>CallExpression `?.` Arguments</ins>
+            <ins>CallExpression OptionalChainingOperator Arguments</ins>
             CallExpression `[` Expression `]`
-            <ins>CallExpression `?.` `[` Expression `]`</ins>
+            <ins>CallExpression OptionalChainingOperator `[` Expression `]`</ins>
             CallExpression `.` IdentifierName
-            <ins>CallExpression `?.` IdentifierName</ins>
+            <ins>CallExpression OptionalChainingOperator IdentifierName</ins>
             CallExpression TemplateLiteral
         </emu-grammar>
         <emu-alg>
@@ -356,14 +382,14 @@
 
           MemberExpression :
             MemberExpression `[` Expression `]`
-            <ins>MemberExpression `?.` `[` Expression `]`</ins>
+            <ins>MemberExpression OptionalChainingOperator `[` Expression `]`</ins>
             MemberExpression `.` IdentifierName
-            <ins>MemberExpression `?.` IdentifierName</ins>
+            <ins>MemberExpression OptionalChainingOperator IdentifierName</ins>
             MemberExpression TemplateLiteral
             SuperProperty
             MetaProperty
             `new` MemberExpression Arguments
-            <ins>`new` MemberExpression `?.` Arguments</ins>
+            <ins>`new` MemberExpression OptionalChainingOperator Arguments</ins>
 
           NewExpression :
             `new` NewExpression
@@ -380,15 +406,15 @@
         <emu-grammar>
           CallExpression :
             CallExpression `[` Expression `]`
-            <ins>CallExpression `?.` `[` Expression `]`</ins>
+            <ins>CallExpression OptionalChainingOperator `[` Expression `]`</ins>
             CallExpression `.` IdentifierName
-            <ins>CallExpression `?.` IdentifierName</ins>
+            <ins>CallExpression OptionalChainingOperator IdentifierName</ins>
 
           MemberExpression :
             MemberExpression `[` Expression `]`
-            <ins>MemberExpression `?.` `[` Expression `]`</ins>
+            <ins>MemberExpression OptionalChainingOperator `[` Expression `]`</ins>
             MemberExpression `.` IdentifierName
-            <ins>MemberExpression `?.` IdentifierName</ins>
+            <ins>MemberExpression OptionalChainingOperator IdentifierName</ins>
             SuperProperty
         </emu-grammar>
         <emu-alg>
@@ -399,7 +425,7 @@
             MemberExpression Arguments
             SuperCall
             CallExpression Arguments
-            <ins>CallExpression `?.` Arguments</ins>
+            <ins>CallExpression OptionalChainingOperator Arguments</ins>
             CallExpression TemplateLiteral
 
           NewExpression :
@@ -408,7 +434,7 @@
           MemberExpression :
             MemberExpression TemplateLiteral
             `new` MemberExpression Arguments
-            <ins>`new` MemberExpression `?.` Arguments</ins>
+            <ins>`new` MemberExpression OptionalChainingOperator Arguments</ins>
 
           NewTarget :
             `new` `.` `target`
@@ -473,7 +499,7 @@
           </emu-alg>
           <ins>
           <ins class="block">
-          <emu-grammar>MemberExpression : MemberExpression `?.` `[` Expression `]`</emu-grammar>
+          <emu-grammar>MemberExpression : MemberExpression OptionalChainingOperator `[` Expression `]`</emu-grammar>
           <emu-alg>
             1. Let _baseReference_ be the result of evaluating |MemberExpression|.
             1. Let _baseValue_ be ? GetValue(_baseReference_).
@@ -500,7 +526,7 @@
             1. Return a value of type Reference whose base value is _bv_ and whose referenced name is _propertyNameString_, and whose strict reference flag is _strict_.
           </emu-alg>
           <ins class="block">
-          <emu-grammar>MemberExpression : MemberExpression `?.` IdentifierName</emu-grammar>
+          <emu-grammar>MemberExpression : MemberExpression OptionalChainingOperator IdentifierName</emu-grammar>
           <emu-alg>
             1. Let _baseReference_ be the result of evaluating |MemberExpression|.
             1. Let _baseValue_ be ? GetValue(_baseReference_).
@@ -515,14 +541,14 @@
           <emu-grammar>CallExpression : CallExpression `[` Expression `]`</emu-grammar>
           <p>Is evaluated in exactly the same manner as <emu-grammar>MemberExpression : MemberExpression `[` Expression `]`</emu-grammar> except that the contained |CallExpression| is evaluated in step 1.</p>
           <ins class="block">
-          <emu-grammar>CallExpression : CallExpression `?.` `[` Expression `]`</emu-grammar>
-          <p>Is evaluated in exactly the same manner as <emu-grammar>MemberExpression : MemberExpression `?.` `[` Expression `]`</emu-grammar> except that the contained |CallExpression| is evaluated in step 1.</p>
+          <emu-grammar>CallExpression : CallExpression OptionalChainingOperator `[` Expression `]`</emu-grammar>
+          <p>Is evaluated in exactly the same manner as <emu-grammar>MemberExpression : MemberExpression OptionalChainingOperator `[` Expression `]`</emu-grammar> except that the contained |CallExpression| is evaluated in step 1.</p>
           </ins>
           <emu-grammar>CallExpression : CallExpression `.` IdentifierName</emu-grammar>
           <p>Is evaluated in exactly the same manner as <emu-grammar>MemberExpression : MemberExpression `.` IdentifierName</emu-grammar> except that the contained |CallExpression| is evaluated in step 1.</p>
           <ins class="block">
-          <emu-grammar>CallExpression : CallExpression `?.` IdentifierName</emu-grammar>
-          <p>Is evaluated in exactly the same manner as <emu-grammar>MemberExpression : MemberExpression `?.` IdentifierName</emu-grammar> except that the contained |CallExpression| is evaluated in step 1.</p>
+          <emu-grammar>CallExpression : CallExpression OptionalChainingOperator IdentifierName</emu-grammar>
+          <p>Is evaluated in exactly the same manner as <emu-grammar>MemberExpression : MemberExpression OptionalChainingOperator IdentifierName</emu-grammar> except that the contained |CallExpression| is evaluated in step 1.</p>
           </ins>
         </emu-clause>
     </emu-clause>
@@ -543,7 +569,7 @@
           1. Return ? EvaluateNew(|MemberExpression|, |Arguments|<ins>, false</ins>).
         </emu-alg>
         <ins class="block">
-        <emu-grammar>MemberExpression : `new` MemberExpression `?.` Arguments</emu-grammar>
+        <emu-grammar>MemberExpression : `new` MemberExpression OptionalChainingOperator Arguments</emu-grammar>
         <emu-alg>
           1. Return ? EvaluateNew(|MemberExpression|, |Arguments|, true).
         </emu-alg>
@@ -610,7 +636,7 @@
         <p>A |CallExpression| evaluation that executes step 3.a.vi is a <em>direct eval</em>.</p>
         <ins class="block">
         <emu-grammar>CallExpression : MemberExpression Arguments</emu-grammar>
-        <p>Is evaluated in the same manner as <emu-grammar>CallExpression : MemberExpression `?.` Arguments</emu-grammar> except for the last step which is replaced by:</p>
+        <p>Is evaluated in the same manner as <emu-grammar>CallExpression : MemberExpression OptionalChainingOperator Arguments</emu-grammar> except for the last step which is replaced by:</p>
         <emu-alg>
           1. Return ? EvaluateDirectCall(_func_, _thisValue_, |Arguments|, _tailCall_, true).
         </emu-alg>
@@ -623,7 +649,7 @@
           1. Return ? EvaluateCall(_ref_, |Arguments|, _tailCall_<ins>, false</ins>).
         </emu-alg>
         <ins class="block">
-        <emu-grammar>CallExpression : CallExpression `?.` Arguments</emu-grammar>
+        <emu-grammar>CallExpression : CallExpression OptionalChainingOperator Arguments</emu-grammar>
         <emu-alg>
           1. Let _ref_ be the result of evaluating |CallExpression|.
           1. Let _thisCall_ be this |CallExpression|.
@@ -721,8 +747,7 @@
     </emu-clause>
   </emu-clause>
 
-
-
 </emu-clause>
+
 
 
