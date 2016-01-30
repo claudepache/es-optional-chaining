@@ -77,11 +77,9 @@ func?.(...args)   // optional function or method call
 new C?.(...args)  // optional constructor invocation
 ```
 
-That syntax may be problematic for the parser, because `foo?.3:0` is currently parsed as `foo ? .3 : 0` and must not be reinterpreted as `foo ?. 3 : 0`. 
+In order to allow `foo?.3:0` to be parsed as `foo ? .3 : 0` rather than `foo ?. 3 : 0`, a simple lookahead is added at the level of the lexical grammar (the `?.` token should not be followed by a decimal digit).
 
-_Input from specialists is wanted in order to decide whether that could be resolved without too much gnashing of teeth._
-
-In order to avoid that issue, two nonproblematic alternatives are proposed:
+Two alternatives that don’t need lookahead are proposed:
 
 ```js
 obj.?prop         // optional property access
