@@ -37,7 +37,7 @@ could become shorter:
 ```js
 var SetProto = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__')?.set
 ```
-   
+
 
 The following code:
 ```js
@@ -68,7 +68,7 @@ var list = node._tree?.editionParams?.fooList || []
 
 ## Syntax
 
-The exact syntax is not yet settled. A first proposal is the following:
+The operator is spelt `?.` and may be used at the following positions:
 
 ```js
 obj?.prop         // optional property access
@@ -77,9 +77,15 @@ func?.(...args)   // optional function or method call
 new C?.(...args)  // optional constructor invocation
 ```
 
-In order to allow `foo?.3:0` to be parsed as `foo ? .3 : 0` rather than `foo ?. 3 : 0`, a simple lookahead is added at the level of the lexical grammar (the `?.` token should not be followed by a decimal digit).
+### Notes
 
-Two alternatives that don’t need lookahead are proposed:
+* In order to allow `foo?.3:0` to be parsed as `foo ? .3 : 0` rather than `foo ?. 3 : 0`, a simple lookahead is added at the level of the lexical grammar (the `?.` token should not be followed by a decimal digit).
+
+* We don’t use the `obj?[expr]` and `func?(...arg)` syntax, because of the difficulty for the parser to distinguish those forms from the conditional operator, e.g. `obj?[expr].filter(fun):0` and `func?(x - 2) + 3 :1`.
+
+<!--
+
+Here are other alternatives that don’t need lookahead are proposed:
 
 ```js
 obj.?prop         // optional property access
@@ -97,7 +103,16 @@ func..(...args)   // optional function or method call
 new C..(...args)  // optional constructor invocation
 ```
 
-For the time being, we keep the `?.` notation.
+And, minimising the number of characters (but the question mark inside the brackets don’t look good):
+
+```js
+obj.?prop        // optional property access
+obj[?expr]       // ditto
+func(?...args)   // optional function or method call
+new C(?...args)  // optional constructor invocation
+```
+
+-->
 
 ## Semantics
 
@@ -114,7 +129,7 @@ a?.[++x]   // If a evaluates to null/undefined, the variable x is *not* incremen
 
 ```js
 a?.b.c().d      // undefined if a is null/undefined, a.b.c().d otherwise.
-                // NB: If a is not null/undefined, and a.b is nevertheless undefined, 
+                // NB: If a is not null/undefined, and a.b is nevertheless undefined,
                 //     short-circuiting does *not* apply
 ```
 
