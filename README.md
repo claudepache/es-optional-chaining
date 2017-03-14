@@ -79,7 +79,7 @@ new C?.(...args)  // optional constructor invocation
 
 ### Notes
 
-* In order to allow `foo?.3:0` to be parsed as `foo ? .3 : 0` rather than `foo ?. 3 : 0`, a simple lookahead is added at the level of the lexical grammar (the `?.` token should not be followed by a decimal digit).
+* In order to allow `foo?.3:0` to be parsed as `foo  ?  .3  :  0` (as required for backward compatibility), a simple lookahead is added at the level of the lexical grammar, so that the sequence of characters `?.` is not interpreted as a single token in that situation (the `?.` token must not be immediately followed by a decimal digit).
 
 * We don’t use the `obj?[expr]` and `func?(...arg)` syntax, because of the difficulty for the parser to distinguish those forms from the conditional operator, e.g. `obj?[expr].filter(fun):0` and `func?(x - 2) + 3 :1`.
 
