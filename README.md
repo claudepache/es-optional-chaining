@@ -1,3 +1,9 @@
+# Status of this repository
+
+This repository represents the sole opinion of his author. The author’s main goal is that the material presented here could be used as a sound base for the official ECMAScript proposal.
+
+The repository of the official ES proposal is here: https://github.com/tc39/proposal-optional-chaining
+
 # Optional Chaining
 
 This is a proposal for introducing Optional Chaining feature (aka Existential Operator, aka Null Propagation) in [ECMAScript](https://github.com/tc39/ecma262/)).
