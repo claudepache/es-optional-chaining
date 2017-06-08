@@ -1,6 +1,6 @@
 # Status of this repository
 
-This repository represents the sole opinion of his author. The author’s main goal is that the material presented here could be used as a sound base for the official ECMAScript proposal.
+This repository represents the sole opinion of his author. The author’s main goal is that the material presented here could be used as a sound basis for the official ECMAScript proposal.
 
 The repository of the official ES proposal is here: https://github.com/tc39/proposal-optional-chaining
 
@@ -139,12 +139,12 @@ a?.b.c().d      // undefined if a is null/undefined, a.b.c().d otherwise.
                 //     short-circuiting does *not* apply
 ```
 
-**Free grouping.** Use of parentheses for mere grouping does *not* stop short-circuiting.
+**Free grouping?** As currently specced, use of parentheses for mere grouping does *not* stop short-circuiting. However that semantics is debatable and may be changed.
 ```js
 (a?.b).c().d     // equivalent to: a?.b.c().d
 ```
 
-**Use in write context.** The `?.` operator may also be used for optional property writing and deletion:
+<del>**Use in write context.**</del> The `?.` operator may also be used for optional property writing and deletion. However, in absence of clear use cases and semantics, that should not be allowed:
 
 ```js
 a?.b = 42     // does nothing if a is null/undefined, equivalent to a.b = 42 otherwise
