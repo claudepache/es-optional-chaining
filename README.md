@@ -1,6 +1,6 @@
 # Status of this repository
 
-This repository represents the sole opinion of his author. The author’s main goal is that the material presented here could be used as a sound basis for the official ECMAScript proposal.
+This repository represents the sole opinion of its author. The author’s main goal is that the material presented here could be used as a sound basis for the official ECMAScript proposal.
 
 The repository of the official ES proposal is here: https://github.com/tc39/proposal-optional-chaining
 
@@ -80,7 +80,7 @@ The operator is spelt `?.` and may be used at the following positions:
 obj?.prop         // optional property access
 obj?.[expr]       // ditto
 func?.(...args)   // optional function or method call
-new C?.(...args)  // optional constructor invocation
+new C?.(...args)  // optional constructor invocation. (But is that case useful?)
 ```
 
 ### Notes
@@ -139,23 +139,45 @@ a?.b.c().d      // undefined if a is null/undefined, a.b.c().d otherwise.
                 //     short-circuiting does *not* apply
 ```
 
-**Free grouping?** As currently specced, use of parentheses for mere grouping does *not* stop short-circuiting. However that semantics is debatable and may be changed.
+**Free grouping?** With the latest update, use of parentheses for mere grouping *doe*s stop short-circuiting.
+
 ```js
-(a?.b).c().d     // equivalent to: a?.b.c().d
+(a?.b).c().d     // no more equivalent to: a?.b.c().d  But maybe it should. Or maybe not.
 ```
 
-<del>**Use in write context.**</del> The `?.` operator may also be used for optional property writing and deletion. However, in absence of clear use cases and semantics, that should not be allowed:
+**Use in write context** In absence of clear use cases and semantics, the `?.` operator is statically forbidden at the left of an assignment operator. On the other hand, optional deletion is allowed, because it has clear semantics, has [known use case](https://github.com/babel/babel/blob/28ae47a174f67a8ae6f4527e0a66e88896814170/packages/babel-helper-builder-react-jsx/src/index.js#L66-L69), and is consistent with the general ”just ignore nonsensical argument” semantics of the `delete` operator.
 
 ```js
-a?.b = 42     // does nothing if a is null/undefined, equivalent to a.b = 42 otherwise
-delete a?.b   // no-op if a is null/undefined
+a?.b = 42     // trigger an early ReferenceError (same error as `a.b() = c`, etc.)
+delete a?.b   // no-op if a is null/undefined
 ```
 
 ## Specification
 
-Technically the semantics are enforced by introducing a special Reference, called Nil, which is propagated without further evaluation through left-hand side expressions (property accesses, method calls, etc.), and which dereferences to **undefined** (or to /dev/null in write context).
+Technically the semantics are enforced by introducing a special Reference, called Nil, which is propagated without further evaluation through left-hand side expressions (property accesses, method calls, etc.), and which dereferences to **undefined**.
 
 See [the spec text](https://claudepache.github.io/es-optional-chaining/) for more details.
+
+## Compiling
+The Nil Reference is a spec artefact that is used because it is more pleasant to write the spec that way. But if you intend to transform code using optional chaining into es6-compatible code, it is more useful to have an “abrupt completion” mental model. Concretely, the expression:
+
+```js
+a?.b.c?.d
+```
+
+could be rewritten using an IIAFE and early return statements:
+
+```js
+(() => {
+    let _ = a
+    if (_ == null)
+        return
+    _ = _.b.c
+    if (_ == null)
+        return
+    return _.d
+})()
+```
 
 
 
