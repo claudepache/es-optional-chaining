@@ -183,10 +183,4 @@ could be rewritten using an IIAFE and early return statements:
 })()
 ```
 
-
-
-
-
-
-
-
+For an existing Babel implementation, see: https://github.com/babel/babel/pull/5813
