@@ -88,6 +88,10 @@ new C?.(...args)  // optional constructor invocation. (But is that case useful?)
 * In order to allow `foo?.3:0` to be parsed as `foo  ?  .3  :  0` (as required for backward compatibility), a simple lookahead is added at the level of the lexical grammar, so that the sequence of characters `?.` is not interpreted as a single token in that situation (the `?.` token must not be immediately followed by a decimal digit).
 
 * We don’t use the `obj?[expr]` and `func?(...arg)` syntax, because of the difficulty for the parser to distinguish those forms from the conditional operator, e.g. `obj?[expr].filter(fun):0` and `func?(x - 2) + 3 :1`.
+  
+  Alternative syntaxes for those two cases have each their own flaws, and deciding which is one the least bad is mostly a question of personal preference. Here is how we made our choice: 
+  - pick the best syntax for the `a?.b` case, which is expected to occurs most often;  
+  - extend the use of the `?.` sequence of characters to other cases, in order to have a uniform look: `a?.[b]`, `a?.(b)`.
 
 <!--
 
