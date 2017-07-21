@@ -14,6 +14,6 @@
   "license": "CC0",
   "homepage": "https://claudepache.github.io/es-optional-chaining/",
   "dependencies": {
-    "ecmarkup": "^3.0.0"
+    "ecmarkup": "^3.11.5"
   }
 }
