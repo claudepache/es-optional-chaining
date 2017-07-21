@@ -496,14 +496,14 @@
         <h1><span class="secnum">5.1.7</span>Static Semantics: MayProduceNil</h1>
         <emu-see-also-para op="MayProduceNil"></emu-see-also-para>
         <emu-grammar><emu-production name="MemberExpression">
-    <emu-nt><a href="#prod-MemberExpression">MemberExpression</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="50ce5553"><emu-nt id="_ref_304"><a href="#prod-MemberExpression">MemberExpression</a></emu-nt><emu-nt id="_ref_305"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-t> </emu-t></emu-rhs>
+    <emu-nt><a href="#prod-MemberExpression">MemberExpression</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="492030a6"><emu-nt id="_ref_304"><a href="#prod-MemberExpression">MemberExpression</a></emu-nt><emu-nt id="_ref_305"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-t>[</emu-t><emu-nt><a href="https://tc39.github.io/ecma262/#prod-Expression">Expression</a></emu-nt><emu-t>]</emu-t></emu-rhs>
     <emu-rhs a="2ac76d4b"><emu-nt id="_ref_306"><a href="#prod-MemberExpression">MemberExpression</a></emu-nt><emu-nt id="_ref_307"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt></emu-rhs>
     <emu-rhs a="51041df2"><emu-t>new</emu-t><emu-nt id="_ref_308"><a href="#prod-MemberExpression">MemberExpression</a></emu-nt><emu-nt id="_ref_309"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-nt id="_ref_310"><a href="#prod-Arguments">Arguments</a></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="CallExpression">
     <emu-nt><a href="#prod-CallExpression">CallExpression</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="58f44394"><emu-nt id="_ref_311"><a href="#prod-MemberExpression">MemberExpression</a></emu-nt><emu-nt id="_ref_312"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-nt id="_ref_313"><a href="#prod-Arguments">Arguments</a></emu-nt></emu-rhs>
     <emu-rhs a="57813c74"><emu-nt id="_ref_314"><a href="#prod-CallExpression">CallExpression</a></emu-nt><emu-nt id="_ref_315"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-nt id="_ref_316"><a href="#prod-Arguments">Arguments</a></emu-nt></emu-rhs>
-    <emu-rhs a="4530f79e"><emu-nt id="_ref_317"><a href="#prod-CallExpression">CallExpression</a></emu-nt><emu-nt id="_ref_318"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-t> </emu-t></emu-rhs>
+    <emu-rhs a="57e412e7"><emu-nt id="_ref_317"><a href="#prod-CallExpression">CallExpression</a></emu-nt><emu-nt id="_ref_318"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-t>[</emu-t><emu-nt><a href="https://tc39.github.io/ecma262/#prod-Expression">Expression</a></emu-nt><emu-t>]</emu-t></emu-rhs>
     <emu-rhs a="4d9d95e4"><emu-nt id="_ref_319"><a href="#prod-CallExpression">CallExpression</a></emu-nt><emu-nt id="_ref_320"><a href="#prod-OptionalChainingOperator">OptionalChainingOperator</a></emu-nt><emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt></emu-rhs>
 </emu-production></emu-grammar>
         <emu-alg><ol><li>Return <emu-val>true</emu-val>.
