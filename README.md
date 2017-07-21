@@ -143,13 +143,20 @@ a?.b.c().d      // undefined if a is null/undefined, a.b.c().d otherwise.
                 //     short-circuiting does *not* apply
 ```
 
+**Locality.** Apart from short-circuiting, the semantics is strictly local. For instance, the meaning of a `.` token is not modified by a previous `?.` token found earlier in the chain.
+```js
+a?.b.c().d      // If  a  is not null/undefined, and  a.b  is nevertheless undefined,
+                // short-circuiting does *not* apply: the meaning of  .c  is not modified.
+```
+Short-circuiting semantics may be compared to an early return instruction in a function.
+
 **Free grouping?** With the latest update, use of parentheses for mere grouping *doe*s stop short-circuiting.
 
 ```js
 (a?.b).c().d     // no more equivalent to: a?.b.c().d  But maybe it should. Or maybe not.
 ```
 
-**Use in write context** In absence of clear use cases and semantics, the `?.` operator is statically forbidden at the left of an assignment operator. On the other hand, optional deletion is allowed, because it has clear semantics, has [known use case](https://github.com/babel/babel/blob/28ae47a174f67a8ae6f4527e0a66e88896814170/packages/babel-helper-builder-react-jsx/src/index.js#L66-L69), and is consistent with the general ”just ignore nonsensical argument” semantics of the `delete` operator.
+**Use in write context.** In absence of clear use cases and semantics, the `?.` operator is statically forbidden at the left of an assignment operator. On the other hand, optional deletion is allowed, because it has clear semantics, has [known use case](https://github.com/babel/babel/blob/28ae47a174f67a8ae6f4527e0a66e88896814170/packages/babel-helper-builder-react-jsx/src/index.js#L66-L69), and is consistent with the general ”just ignore nonsensical argument” semantics of the `delete` operator.
 
 ```js
 a?.b = 42     // trigger an early ReferenceError (same error as `a.b() = c`, etc.)
