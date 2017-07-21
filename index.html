@@ -77,11 +77,13 @@
         </li></ol></emu-alg>
       </emu-clause>
 
+      <ins class="block">
       <emu-clause id="sec-isnilreference" aoid="IsNilReference">
-        <h1 id="ao-issuperreference"><span class="secnum">2.1.8</span><ins>IsNilReference ( <var>V</var> )</ins></h1>
-        <emu-alg><ol><li><ins>Assert: <emu-xref aoid="Type" id="_ref_20"><a href="https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>V</var>) is <emu-xref href="#sec-reference-specification-type" id="_ref_21"><a href="#sec-reference-specification-type">Reference</a></emu-xref>.</ins></li><li><ins>If the base value component of <var>V</var> is the symbol <emu-const>Nil</emu-const>, return <emu-val>true</emu-val>; otherwise, return <emu-val>false</emu-val>.</ins>
+        <h1 id="ao-issuperreference"><span class="secnum">2.1.8</span>IsNilReference ( <var>V</var> )</h1>
+        <emu-alg><ol><li>Assert: <emu-xref aoid="Type" id="_ref_20"><a href="https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>V</var>) is <emu-xref href="#sec-reference-specification-type" id="_ref_21"><a href="#sec-reference-specification-type">Reference</a></emu-xref>.</li><li>If the base value component of <var>V</var> is the symbol <emu-const>Nil</emu-const>, return <emu-val>true</emu-val>; otherwise, return <emu-val>false</emu-val>.
         </li></ol></emu-alg>
       </emu-clause>
+      </ins>
 
       <!-- es6num="6.2.3.1" -->
       <emu-clause id="sec-getvalue" aoid="GetValue">
