@@ -150,10 +150,10 @@ a?.b.c().d      // If  a  is not null/undefined, and  a.b  is nevertheless undef
 ```
 Short-circuiting semantics may be compared to an early return instruction in a function.
 
-**Free grouping?** With the latest update, use of parentheses for mere grouping *doe*s stop short-circuiting.
+**Free grouping?** As currently specced, use of parentheses for mere grouping does not stop short-circuiting. However that semantics is debatable and may be changed.
 
 ```js
-(a?.b).c().d     // no more equivalent to: a?.b.c().d  But maybe it should. Or maybe not.
+(a?.b).c().d     // equivalent to: a?.b.c().d
 ```
 
 **Use in write context.** In absence of clear use cases and semantics, the `?.` operator is statically forbidden at the left of an assignment operator. On the other hand, optional deletion is allowed, because it has clear semantics, has [known use case](https://github.com/babel/babel/blob/28ae47a174f67a8ae6f4527e0a66e88896814170/packages/babel-helper-builder-react-jsx/src/index.js#L66-L69), and is consistent with the general ”just ignore nonsensical argument” semantics of the `delete` operator.
