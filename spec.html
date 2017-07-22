@@ -281,69 +281,6 @@
     </emu-grammar>
   </emu-clause>
 
-  <!-- es6num="12.2" -->
-  <emu-clause id="sec-primary-expression">
-    <h1>(<a href="https://tc39.github.io/ecma262/#sec-primary-expression">12.2</a>) Primary Expression</h1>
-
-    <!-- es6num="12.2.10" -->
-    <emu-clause id="sec-grouping-operator">
-      <h1>(<a href="https://tc39.github.io/ecma262/#sec-grouping-operator">12.2.10</a>) The Grouping Operator</h1>
-
-      <!-- es6num="12.2.10.1" -->
-      <emu-clause id="sec-grouping-operator-static-semantics-early-errors">
-        <h1>Static Semantics: Early Errors</h1>
-        <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
-        <ul>
-          <li>
-            It is a Syntax Error if the lexical token sequence matched by |CoverParenthesizedExpressionAndArrowParameterList| cannot be parsed with no tokens left over using |ParenthesizedExpression| as the goal symbol.
-          </li>
-          <li>
-            All Early Error rules for |ParenthesizedExpression| and its derived productions also apply to CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
-          </li>
-        </ul>
-      </emu-clause>
-
-      <!-- es6num="12.2.10.2" -->
-      <emu-clause id="sec-grouping-operator-static-semantics-isfunctiondefinition">
-        <h1>Static Semantics: IsFunctionDefinition</h1>
-        <emu-see-also-para op="IsFunctionDefinition"></emu-see-also-para>
-        <emu-grammar>ParenthesizedExpression : `(` Expression `)`</emu-grammar>
-        <emu-alg>
-          1. Return IsFunctionDefinition of |Expression|.
-        </emu-alg>
-      </emu-clause>
-
-      <!-- es6num="12.2.10.3" -->
-      <emu-clause id="sec-grouping-operator-static-semantics-isvalidsimpleassignmenttarget">
-        <h1>Static Semantics: IsValidSimpleAssignmentTarget</h1>
-        <emu-see-also-para op="IsValidSimpleAssignmentTarget"></emu-see-also-para>
-        <emu-grammar>ParenthesizedExpression : `(` Expression `)`</emu-grammar>
-        <emu-alg>
-          1. Return IsValidSimpleAssignmentTarget of |Expression|.
-        </emu-alg>
-      </emu-clause>
-
-      <!-- es6num="12.2.10.4" -->
-      <emu-clause id="sec-grouping-operator-runtime-semantics-evaluation">
-        <h1>Runtime Semantics: Evaluation</h1>
-        <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
-        <emu-alg>
-          1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
-          1. Return the result of evaluating _expr_.
-        </emu-alg>
-        <emu-grammar>ParenthesizedExpression : `(` Expression `)`</emu-grammar>
-        <emu-alg>
-          1. Let _ref_ be the result of evaluating |Expression|. This may be of type Reference.
-          1. <ins>If _ref_ is a Nil Reference, return *undefined*.</ins>
-          1. Return _ref_.
-        </emu-alg>
-        <emu-note>
-          <p>This algorithm does not apply GetValue to the result of evaluating |Expression|. The principal motivation for this is so that operators such as `delete` and `typeof` may be applied to parenthesized expressions.</p>
-        </emu-note>
-      </emu-clause>
-    </emu-clause>
-  </emu-clause>
-
   <!-- es6num="12.3" -->
   <emu-clause id="sec-left-hand-side-expressions">
     <h1>(<a href="https://tc39.github.io/ecma262/#sec-left-hand-side-expressions">12.3</a>) Left-Hand-Side Expressions</h1>
