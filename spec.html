@@ -281,6 +281,295 @@
     </emu-grammar>
   </emu-clause>
 
+  <!-- es6num="12.2" -->
+  <emu-clause id="sec-primary-expression">
+    <h1>(<a href="https://tc39.github.io/ecma262/#sec-primary-expressions">12.2</a>) Primary Expression</h1>
+    <h2>Syntax</h2>
+    <emu-grammar>
+      PrimaryExpression[Yield, Await] :
+        `this`
+        IdentifierReference[?Yield, ?Await]
+        Literal
+        ArrayLiteral[?Yield, ?Await]
+        ObjectLiteral[?Yield, ?Await]
+        FunctionExpression
+        ClassExpression[?Yield, ?Await]
+        GeneratorExpression
+        AsyncFunctionExpression
+        RegularExpressionLiteral
+        TemplateLiteral[?Yield, ?Await]
+        CoverParenthesizedExpressionAndArrowParameterList[?Yield, ?Await] #parencover
+
+      CoverParenthesizedExpressionAndArrowParameterList[Yield, Await] :
+        `(` Expression[+In, ?Yield, ?Await] `)`
+        `(` Expression[+In, ?Yield, ?Await] `,` `)`
+        `(` `)`
+        `(` `...` BindingIdentifier[?Yield, ?Await] `)`
+        `(` `...` BindingPattern[?Yield, ?Await] `)`
+        `(` Expression[+In, ?Yield, ?Await] `,` `...` BindingIdentifier[?Yield, ?Await] `)`
+        `(` Expression[+In, ?Yield, ?Await] `,` `...` BindingPattern[?Yield, ?Await] `)`
+    </emu-grammar>
+    <h2>Supplemental Syntax</h2>
+    <p>When processing an instance of the production
+      <br>
+      <emu-grammar>PrimaryExpression[Yield, Await] : CoverParenthesizedExpressionAndArrowParameterList[?Yield, ?Await]</emu-grammar>
+      <br>
+      the interpretation of |CoverParenthesizedExpressionAndArrowParameterList| is refined using the following grammar:</p>
+    <emu-grammar>
+      ParenthesizedExpression[Yield, Await] :
+        `(` Expression[+In, ?Yield, ?Await] `)`
+    </emu-grammar>
+
+    <!-- es6num="12.2.1" -->
+    <emu-clause id="sec-primary-expression-semantics">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-primary-expression-semantics">12.2.1</a>) Semantics</h1>
+
+      <!-- es6num="12.2.1.1" -->
+      <emu-clause id="sec-static-semantics-coveredparenthesizedexpression">
+        <h1>Static Semantics: CoveredParenthesizedExpression</h1>
+        <emu-grammar>CoverParenthesizedExpressionAndArrowParameterList[Yield, Await] : `(` Expression[+In, ?Yield, ?Await] `)`</emu-grammar>
+        <emu-alg>
+          1. Return the result of parsing the lexical token stream matched by |CoverParenthesizedExpressionAndArrowParameterList| using |ParenthesizedExpression| as the goal symbol with its <sub>[Yield]</sub> and <sub>[Await]</sub> parameters set to the values used when parsing this |CoverParenthesizedExpressionAndArrowParameterList|.
+        </emu-alg>
+      </emu-clause>
+
+      <!-- es6num="12.2.1.2" -->
+      <emu-clause id="sec-semantics-static-semantics-hasname">
+        <h1>Static Semantics: HasName</h1>
+        <emu-see-also-para op="HasName"></emu-see-also-para>
+        <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
+        <emu-alg>
+          1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+          1. If IsFunctionDefinition of _expr_ is *false*, return *false*.
+          1. Return HasName of _expr_.
+        </emu-alg>
+      </emu-clause>
+
+      <!-- es6num="12.2.1.3" -->
+      <emu-clause id="sec-semantics-static-semantics-isfunctiondefinition">
+        <h1>Static Semantics: IsFunctionDefinition</h1>
+        <emu-see-also-para op="IsFunctionDefinition"></emu-see-also-para>
+        <emu-grammar>
+          PrimaryExpression :
+            `this`
+            IdentifierReference
+            Literal
+            ArrayLiteral
+            ObjectLiteral
+            RegularExpressionLiteral
+            TemplateLiteral
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+        <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
+        <emu-alg>
+          1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+          1. Return IsFunctionDefinition of _expr_.
+        </emu-alg>
+      </emu-clause>
+
+      <!-- es6num="12.2.1.4" -->
+      <emu-clause id="sec-semantics-static-semantics-isidentifierref">
+        <h1>Static Semantics: IsIdentifierRef</h1>
+        <emu-see-also-para op="IsIdentifierRef"></emu-see-also-para>
+        <emu-grammar>PrimaryExpression : IdentifierReference</emu-grammar>
+        <emu-alg>
+          1. Return *true*.
+        </emu-alg>
+        <emu-grammar>
+          PrimaryExpression :
+            `this`
+            Literal
+            ArrayLiteral
+            ObjectLiteral
+            FunctionExpression
+            ClassExpression
+            GeneratorExpression
+            AsyncFunctionExpression
+            RegularExpressionLiteral
+            TemplateLiteral
+            CoverParenthesizedExpressionAndArrowParameterList
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+      </emu-clause>
+
+      <!-- es6num="12.2.1.5" -->
+      <emu-clause id="sec-semantics-static-semantics-isvalidsimpleassignmenttarget">
+        <h1>Static Semantics: IsValidSimpleAssignmentTarget</h1>
+        <emu-see-also-para op="IsValidSimpleAssignmentTarget"></emu-see-also-para>
+        <emu-grammar>
+          PrimaryExpression :
+            `this`
+            Literal
+            ArrayLiteral
+            ObjectLiteral
+            FunctionExpression
+            ClassExpression
+            GeneratorExpression
+            AsyncFunctionExpression
+            RegularExpressionLiteral
+            TemplateLiteral
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+        <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
+        <emu-alg>
+          1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+          1. Return IsValidSimpleAssignmentTarget of _expr_.
+        </emu-alg>
+      </emu-clause>
+
+      <ins class="block">
+      <emu-clause id="sec-semantics-static-semantics-mayproducenil">
+        <h1>Static Semantics: MayProduceNil</h1>
+        <emu-see-also-para op="MayProduceNil"></emu-see-also-para>
+        <emu-grammar>
+          PrimaryExpression :
+            `this`
+            Literal
+            ArrayLiteral
+            ObjectLiteral
+            FunctionExpression
+            ClassExpression
+            GeneratorExpression
+            AsyncFunctionExpression
+            RegularExpressionLiteral
+            TemplateLiteral
+        </emu-grammar>
+        <emu-alg>
+          1. Return *false*.
+        </emu-alg>
+        <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
+        <emu-alg>
+          1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+          1. Return MayProduceNil of _expr_.
+        </emu-alg>
+      </emu-clause>
+      </ins>
+
+    </emu-clause>
+
+    <!-- es6num="12.2.2" -->
+    <emu-clause id="sec-this-keyword">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-this-keyword">12.2.2</a>) The `this` Keyword</h1>
+      <p><i>(not modified)</i></p>
+    </emu-clause>
+
+    <!-- es6num="12.2.3" -->
+    <emu-clause id="sec-identifier-reference">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-identifier-reference">12.2.3</a>) Identifier Reference</h1>
+      <p><i>(not modified)</i></p>
+    </emu-clause>
+
+    <!-- es6num="12.2.4" -->
+    <emu-clause id="sec-primary-expression-literals">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-literals">12.2.4</a>) Literals</h1>
+      <p><i>(not modified)</i></p>
+    </emu-clause>
+
+    <!-- es6num="12.2.5" -->
+    <emu-clause id="sec-array-initializer">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-array-initializer">12.2.5</a>) Array Initializer</h1>
+      <p><i>(not modified)</i></p>
+    </emu-clause>
+
+    <!-- es6num="12.2.6" -->
+    <emu-clause id="sec-object-initializer">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-object-initializer">12.2.6</a>) Object Initializer</h1>
+      <p><i>(not modified)</i></p>
+    </emu-clause>
+
+    <!-- es6num="12.2.7" -->
+    <emu-clause id="sec-function-defining-expressions">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-defining-expressions">12.2.7</a>) Function Defining Expressions</h1>
+      <p><i>(not modified)</i></p>
+    </emu-clause>
+
+    <!-- es6num="12.2.8" -->
+    <emu-clause id="sec-primary-expression-regular-expression-literals">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-regular-expression-literals">12.2.8</a>) Regular Expression Literals</h1>
+      <p><i>(not modified)</i></p>
+    </emu-clause>
+
+    <!-- es6num="12.2.9" -->
+    <emu-clause id="sec-template-literals">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-template-literals">12.2.9</a>) Template Literals</h1>
+      <p><i>(not modified)</i></p>
+    </emu-clause>
+
+    <!-- es6num="12.2.10" -->
+    <emu-clause id="sec-grouping-operator">
+      <h1>(<a href="https://tc39.github.io/ecma262/#sec-grouping-operator">12.2.10</a>) The Grouping Operator</h1>
+
+      <!-- es6num="12.2.10.1" -->
+      <emu-clause id="sec-grouping-operator-static-semantics-early-errors">
+        <h1>Static Semantics: Early Errors</h1>
+        <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
+        <ul>
+          <li>
+            It is a Syntax Error if the lexical token sequence matched by |CoverParenthesizedExpressionAndArrowParameterList| cannot be parsed with no tokens left over using |ParenthesizedExpression| as the goal symbol.
+          </li>
+          <li>
+            All Early Error rules for |ParenthesizedExpression| and its derived productions also apply to CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+          </li>
+        </ul>
+      </emu-clause>
+
+      <!-- es6num="12.2.10.2" -->
+      <emu-clause id="sec-grouping-operator-static-semantics-isfunctiondefinition">
+        <h1>Static Semantics: IsFunctionDefinition</h1>
+        <emu-see-also-para op="IsFunctionDefinition"></emu-see-also-para>
+        <emu-grammar>ParenthesizedExpression : `(` Expression `)`</emu-grammar>
+        <emu-alg>
+          1. Return IsFunctionDefinition of |Expression|.
+        </emu-alg>
+      </emu-clause>
+
+      <!-- es6num="12.2.10.3" -->
+      <emu-clause id="sec-grouping-operator-static-semantics-isvalidsimpleassignmenttarget">
+        <h1>Static Semantics: IsValidSimpleAssignmentTarget</h1>
+        <emu-see-also-para op="IsValidSimpleAssignmentTarget"></emu-see-also-para>
+        <emu-grammar>ParenthesizedExpression : `(` Expression `)`</emu-grammar>
+        <emu-alg>
+          1. Return IsValidSimpleAssignmentTarget of |Expression|.
+        </emu-alg>
+      </emu-clause>
+
+      <ins class="block">
+      <emu-clause id="sec-grouping-operator-static-semantics-mayproducenil">
+        <h1>Static Semantics: MayProduceNil</h1>
+        <emu-see-also-para op="MayProduceNil"></emu-see-also-para>
+        <emu-grammar>ParenthesizedExpression : `(` Expression `)`</emu-grammar>
+        <emu-alg>
+          1. Return MayProduceNil of |Expression|.
+        </emu-alg>
+      </emu-clause>
+      </ins>
+
+      <!-- es6num="12.2.10.4" -->
+      <emu-clause id="sec-grouping-operator-runtime-semantics-evaluation">
+        <h1>Runtime Semantics: Evaluation</h1>
+        <emu-grammar>PrimaryExpression : CoverParenthesizedExpressionAndArrowParameterList</emu-grammar>
+        <emu-alg>
+          1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+          1. Return the result of evaluating _expr_.
+        </emu-alg>
+        <emu-grammar>ParenthesizedExpression : `(` Expression `)`</emu-grammar>
+        <emu-alg>
+          1. Return the result of evaluating |Expression|. This may be of type Reference.
+        </emu-alg>
+        <emu-note>
+          <p>This algorithm does not apply GetValue to the result of evaluating |Expression|. The principal motivation for this is so that operators such as `delete` and `typeof` may be applied to parenthesized expressions.</p>
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+
   <!-- es6num="12.3" -->
   <emu-clause id="sec-left-hand-side-expressions">
     <h1>(<a href="https://tc39.github.io/ecma262/#sec-left-hand-side-expressions">12.3</a>) Left-Hand-Side Expressions</h1>
@@ -562,22 +851,11 @@
         </emu-alg>
         <emu-grammar>
           MemberExpression :
-            PrimaryExpression
             SuperProperty
             MetaProperty
 
-          SuperProperty :
-            `super` `[` Expression `]`
-            `super` `.` IdentifierName
-
-          NewTarget :
-            `new` `.` `target`
-
           CallExpression :
             SuperCall
-
-          SuperCall :
-            `super` Arguments
         </emu-grammar>
         <emu-alg>
           1. Return *false*.
