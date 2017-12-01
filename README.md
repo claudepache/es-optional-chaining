@@ -2,7 +2,7 @@
 
 This repository represents the sole opinion of its author. The author’s main goal is that the material presented here could be used as a sound basis for the official ECMAScript proposal.
 
-***This repository is now obselete. The official ECMAScript proposal is here: https://github.com/tc39/proposal-optional-chaining***
+***This repository is now obsolete. The official ECMAScript proposal is here: https://github.com/tc39/proposal-optional-chaining***
 
 # Optional Chaining
 
